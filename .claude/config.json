@@ -1,0 +1,96 @@
+{
+  "name": "SubAgentsTest KMP Project",
+  "version": "1.0.0",
+  "description": "Kotlin Multiplatform note-taking app with Clean Architecture",
+  "mcp_servers": {
+    "filesystem": {
+      "type": "builtin",
+      "config": {
+        "allowed_directories": [
+          "/Users/vladimirzhdanov/AndroidStudioProjects/SubAgentsTest"
+        ],
+        "watch_patterns": [
+          "**/*.kt",
+          "**/*.sql",
+          "**/*.md",
+          "**/build.gradle.kts",
+          "**/libs.versions.toml"
+        ]
+      }
+    },
+    "git": {
+      "type": "builtin",
+      "config": {
+        "repository": "/Users/vladimirzhdanov/AndroidStudioProjects/SubAgentsTest"
+      }
+    }
+  },
+  "context_files": [
+    ".claude/project_context.md",
+    "README.md",
+    "ARCHITECTURE.md",
+    "PROJECT_STATUS.md",
+    "QUICKSTART.md",
+    "AI_HELP_SYSTEM.md"
+  ],
+  "indexed_docs": [
+    {
+      "path": "README.md",
+      "type": "overview",
+      "priority": "high"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "type": "architecture",
+      "priority": "high"
+    },
+    {
+      "path": "PROJECT_STATUS.md",
+      "type": "status",
+      "priority": "medium"
+    },
+    {
+      "path": "QUICKSTART.md",
+      "type": "reference",
+      "priority": "medium"
+    },
+    {
+      "path": "AI_HELP_SYSTEM.md",
+      "type": "help",
+      "priority": "medium"
+    },
+    {
+      "path": "AI_HELP_CHEATSHEET.md",
+      "type": "reference",
+      "priority": "low"
+    },
+    {
+      "path": "DOCS_NAVIGATION.md",
+      "type": "navigation",
+      "priority": "low"
+    },
+    {
+      "path": "INDEX.md",
+      "type": "index",
+      "priority": "low"
+    }
+  ],
+  "code_patterns": {
+    "feature_structure": "features/[name]/{data,domain,presentation}",
+    "viewmodel_pattern": "ViewModel with StateFlow/SharedFlow",
+    "di_framework": "Koin",
+    "database": "SQLDelight",
+    "ui_framework": "Compose Multiplatform"
+  },
+  "commands": {
+    "/help": "Show available help topics",
+    "/help architecture": "Explain Clean Architecture layers",
+    "/help feature": "Show how to add a new feature",
+    "/help koin": "Dependency Injection with Koin",
+    "/help sqldelight": "Database queries and schema",
+    "/help compose": "Compose Multiplatform UI patterns",
+    "/help testing": "Testing patterns and examples",
+    "/help git": "Git workflow and branching"
+  }
+}
+

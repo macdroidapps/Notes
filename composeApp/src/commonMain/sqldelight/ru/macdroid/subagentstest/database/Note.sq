@@ -1,0 +1,61 @@
+-- Table definition
+CREATE TABLE Note (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES Category(id) ON DELETE CASCADE
+);
+
+-- Index for better performance
+CREATE INDEX note_category_idx ON Note(category_id);
+
+-- Queries
+selectAll:
+SELECT * FROM Note
+ORDER BY updated_at DESC;
+
+selectById:
+SELECT * FROM Note
+WHERE id = :id;
+
+selectByCategory:
+SELECT * FROM Note
+WHERE category_id = :categoryId
+ORDER BY updated_at DESC;
+
+searchNotes:
+SELECT *
+FROM Note
+WHERE (title LIKE '%' || :searchText || '%'
+    OR content LIKE '%' || :searchText || '%')
+    AND (:categoryId IS NULL OR category_id = :categoryId)
+ORDER BY updated_at DESC;
+
+insert:
+INSERT INTO Note(category_id, title, content, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?);
+
+update:
+UPDATE Note
+SET title = :title,
+    content = :content,
+    updated_at = :updatedAt
+WHERE id = :id;
+
+deleteById:
+DELETE FROM Note
+WHERE id = :id;
+
+deleteByCategoryId:
+DELETE FROM Note
+WHERE category_id = :categoryId;
+
+count:
+SELECT COUNT(*) FROM Note;
+
+countByCategory:
+SELECT COUNT(*) FROM Note
+WHERE category_id = :categoryId;

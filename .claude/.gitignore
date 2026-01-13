@@ -1,0 +1,13 @@
+# Ignore generated index (can be regenerated)
+indexed_docs.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
+
