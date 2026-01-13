@@ -1,0 +1,182 @@
+# AI Code Review Configuration
+
+# Модель Claude для использования
+model: "claude-3-5-sonnet-20241022"
+# Альтернативы:
+# - "claude-3-opus-20240229" (более мощная, дороже)
+# - "claude-3-haiku-20240307" (быстрая, дешевле)
+
+# Максимальное количество токенов для ответа
+max_tokens: 8000
+
+# Температура (0.0 - 1.0)
+# Меньше = более детерминированный и консервативный
+# Больше = более креативный
+temperature: 0.3
+
+# Категории анализа (включить/выключить)
+analysis_categories:
+  architecture: true
+  kotlin_best_practices: true
+  compose_best_practices: true
+  potential_bugs: true
+  performance: true
+  code_style: true
+  testing: true
+  documentation: true
+  security: true
+  concurrency: true
+
+# Приоритеты для различных проблем
+priorities:
+  critical:
+    - memory_leak
+    - null_pointer
+    - race_condition
+    - security_vulnerability
+    - architecture_violation
+
+  important:
+    - code_smell
+    - performance_issue
+    - missing_error_handling
+    - poor_naming
+    - tight_coupling
+
+  suggestion:
+    - refactoring_opportunity
+    - documentation_improvement
+    - code_duplication
+    - minor_style_issue
+
+# Минимальные пороги для включения в review
+thresholds:
+  min_critical_issues_to_report: 0  # Всегда сообщать о критичных
+  min_important_issues_to_report: 1
+  min_suggestions_to_report: 3
+
+# Игнорировать определённые файлы/паттерны
+ignore_patterns:
+  - "**/generated/**"
+  - "**/build/**"
+  - "**/*.generated.kt"
+  - "**/BuildConfig.kt"
+
+# Дополнительные правила для проекта
+project_specific_rules:
+  # Clean Architecture
+  - rule: "enforce_layer_separation"
+    description: "Presentation не должен напрямую обращаться к Data"
+    severity: "critical"
+
+  - rule: "use_cases_required"
+    description: "ViewModels должны использовать Use Cases"
+    severity: "important"
+
+  - rule: "repository_pattern"
+    description: "Data sources должны быть обёрнуты в Repository"
+    severity: "important"
+
+  # Kotlin/KMP
+  - rule: "immutable_state"
+    description: "UI state должен быть immutable (data class с val)"
+    severity: "important"
+
+  - rule: "coroutine_scope"
+    description: "Используйте viewModelScope для корутин в ViewModel"
+    severity: "critical"
+
+  - rule: "flow_over_livedata"
+    description: "Предпочитайте Flow вместо LiveData"
+    severity: "suggestion"
+
+  # Compose
+  - rule: "remember_state"
+    description: "Локальный state должен использовать remember"
+    severity: "important"
+
+  - rule: "avoid_side_effects"
+    description: "Не вызывайте suspend функции напрямую в Composable"
+    severity: "critical"
+
+# Настройки форматирования ответа
+formatting:
+  include_code_snippets: true
+  max_snippet_lines: 15
+  include_file_links: true
+  use_emoji: true
+  language: "ru"  # или "en"
+
+# Ограничения на размер входных данных
+limits:
+  max_diff_size: 20000  # символов
+  max_file_content_size: 30000  # символов
+  max_project_context_size: 15000  # символов
+  max_files_to_analyze: 10
+
+# Фильтры для типов изменений
+analyze_only:
+  file_extensions:
+    - ".kt"
+    - ".kts"
+
+  change_types:
+    - "added"
+    - "modified"
+    # - "deleted"  # Не анализировать удалённые файлы
+
+# Интеграция с другими инструментами
+integrations:
+  # Detekt (статический анализ)
+  detekt:
+    enabled: false
+    config_path: "detekt.yml"
+
+  # ktlint (форматирование)
+  ktlint:
+    enabled: false
+    android: true
+
+  # GitHub Code Scanning
+  github_code_scanning:
+    enabled: false
+
+# Debug режим
+debug:
+  enabled: false
+  save_prompts: false
+  verbose_logging: false
+
+# Кэширование
+cache:
+  enabled: true
+  cache_project_context: true
+  cache_duration_hours: 24
+
+# Уведомления
+notifications:
+  # Уведомлять только при наличии критичных проблем
+  critical_only: false
+
+  # Включать summary в начало комментария
+  include_summary: true
+
+  # Добавлять метаинформацию (время анализа, версия модели и т.д.)
+  include_metadata: true
+
+# Автоматические действия
+auto_actions:
+  # Автоматически запрашивать изменения при критичных проблемах
+  request_changes_on_critical: false
+
+  # Автоматически одобрять при отсутствии проблем
+  auto_approve_clean_pr: false
+
+  # Добавлять labels на основе результатов
+  add_labels:
+    enabled: true
+    labels:
+      needs_work: "🔴 критичных проблем > 0"
+      good_quality: "🟢 нет критичных, < 3 важных"
+      needs_review: "🟡 важных замечаний > 3"
+

@@ -1,0 +1,5 @@
+# Requirements for AI Code Review System
+anthropic>=0.18.0
+requests>=2.31.0
+pyyaml>=6.0
+
