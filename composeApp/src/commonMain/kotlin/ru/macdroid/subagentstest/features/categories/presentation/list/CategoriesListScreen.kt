@@ -1,11 +1,12 @@
 package ru.macdroid.subagentstest.features.categories.presentation.list
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,6 +26,7 @@ import ru.macdroid.subagentstest.features.categories.presentation.viewmodel.Cate
 @Composable
 fun CategoriesListScreen(
     onNavigateToNotes: (categoryId: Long) -> Unit,
+    onNavigateToSupport: () -> Unit = {},
     viewModel: CategoriesViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -35,7 +37,8 @@ fun CategoriesListScreen(
         modifier = modifier,
         topBar = {
             CategoriesTopBar(
-                onAddClick = { showAddDialog = true }
+                onAddClick = { showAddDialog = true },
+                onSupportClick = onNavigateToSupport
             )
         }
     ) { padding ->
@@ -86,10 +89,20 @@ fun CategoriesListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CategoriesTopBar(onAddClick: () -> Unit) {
+private fun CategoriesTopBar(
+    onAddClick: () -> Unit,
+    onSupportClick: () -> Unit
+) {
     TopAppBar(
         title = { Text("Категории") },
         actions = {
+            IconButton(onClick = onSupportClick) {
+                Icon(
+                    Icons.Filled.Info,
+                    contentDescription = "Поддержка",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
             TextButton(onClick = onAddClick) {
                 Text("Добавить")
             }

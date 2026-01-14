@@ -1,0 +1,47 @@
+CREATE TABLE FAQ (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    category TEXT NOT NULL,
+    keywords TEXT NOT NULL,
+    view_count INTEGER NOT NULL DEFAULT 0,
+    helpful_count INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL
+);
+
+CREATE INDEX faq_category_idx ON FAQ(category);
+
+selectAll:
+SELECT * FROM FAQ ORDER BY view_count DESC, helpful_count DESC;
+
+selectByCategory:
+SELECT * FROM FAQ WHERE category = ? ORDER BY view_count DESC;
+
+searchByKeywords:
+SELECT *
+FROM FAQ
+WHERE (LOWER(question) LIKE '%' || LOWER(?) || '%'
+    OR LOWER(answer) LIKE '%' || LOWER(?) || '%'
+    OR LOWER(keywords) LIKE '%' || LOWER(?) || '%')
+ORDER BY helpful_count DESC, view_count DESC
+LIMIT 10;
+
+selectById:
+SELECT * FROM FAQ WHERE id = ?;
+
+insert:
+INSERT INTO FAQ(question, answer, category, keywords, view_count, helpful_count, created_at)
+VALUES (?, ?, ?, ?, 0, 0, ?);
+
+incrementViewCount:
+UPDATE FAQ SET view_count = view_count + 1 WHERE id = ?;
+
+incrementHelpfulCount:
+UPDATE FAQ SET helpful_count = helpful_count + 1 WHERE id = ?;
+
+deleteById:
+DELETE FROM FAQ WHERE id = ?;
+
+lastInsertRowId:
+SELECT last_insert_rowid();
+

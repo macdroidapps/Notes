@@ -1,0 +1,26 @@
+CREATE TABLE TicketMessage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ticket_id INTEGER NOT NULL,
+    sender_type TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    FOREIGN KEY (ticket_id) REFERENCES SupportTicket(id) ON DELETE CASCADE
+);
+
+CREATE INDEX ticket_message_ticket_id_idx ON TicketMessage(ticket_id);
+
+selectByTicketId:
+SELECT * FROM TicketMessage
+WHERE ticket_id = :ticket_id
+ORDER BY created_at ASC;
+
+insert:
+INSERT INTO TicketMessage(ticket_id, sender_type, content, created_at)
+VALUES (?, ?, ?, ?);
+
+deleteByTicketId:
+DELETE FROM TicketMessage WHERE ticket_id = :ticket_id;
+
+lastInsertRowId:
+SELECT last_insert_rowid();
+

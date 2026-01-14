@@ -1,0 +1,44 @@
+CREATE TABLE SupportTicket (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_name TEXT NOT NULL,
+    user_email TEXT NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    status TEXT NOT NULL,
+    priority TEXT NOT NULL,
+    category TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    resolved_at INTEGER
+);
+
+CREATE INDEX support_ticket_status_idx ON SupportTicket(status);
+CREATE INDEX support_ticket_category_idx ON SupportTicket(category);
+
+selectAll:
+SELECT * FROM SupportTicket ORDER BY updated_at DESC;
+
+selectById:
+SELECT * FROM SupportTicket WHERE id = :id;
+
+selectByStatus:
+SELECT * FROM SupportTicket WHERE status = :status ORDER BY priority DESC, updated_at DESC;
+
+selectByCategory:
+SELECT * FROM SupportTicket WHERE category = :category ORDER BY updated_at DESC;
+
+insert:
+INSERT INTO SupportTicket(user_name, user_email, title, description, status, priority, category, created_at, updated_at, resolved_at)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+updateStatus:
+UPDATE SupportTicket
+SET status = :status, updated_at = :updated_at, resolved_at = :resolved_at
+WHERE id = :id;
+
+deleteById:
+DELETE FROM SupportTicket WHERE id = :id;
+
+lastInsertRowId:
+SELECT last_insert_rowid();
+
