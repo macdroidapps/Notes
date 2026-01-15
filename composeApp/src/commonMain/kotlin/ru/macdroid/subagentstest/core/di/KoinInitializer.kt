@@ -6,6 +6,7 @@ import org.koin.dsl.KoinAppDeclaration
 import ru.macdroid.subagentstest.features.categories.di.categoriesModule
 import ru.macdroid.subagentstest.features.notes.di.notesModule
 import ru.macdroid.subagentstest.features.support.di.supportModule
+import ru.macdroid.subagentstest.features.teamAssistant.di.teamAssistantModule
 
 fun initKoin(platformModule: Module, appDeclaration: KoinAppDeclaration = {}) {
     startKoin {
@@ -16,7 +17,8 @@ fun initKoin(platformModule: Module, appDeclaration: KoinAppDeclaration = {}) {
             databaseModule,
             categoriesModule,
             notesModule,
-            supportModule
+            supportModule,
+            teamAssistantModule
         )
     }
 }

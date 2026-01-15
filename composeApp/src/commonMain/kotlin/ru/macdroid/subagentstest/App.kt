@@ -7,12 +7,14 @@ import org.koin.compose.KoinContext
 import ru.macdroid.subagentstest.features.categories.presentation.list.CategoriesListScreen
 import ru.macdroid.subagentstest.features.notes.presentation.list.NotesListScreen
 import ru.macdroid.subagentstest.features.support.presentation.screen.SupportChatScreen
+import ru.macdroid.subagentstest.features.teamAssistant.presentation.screen.TeamAssistantChatScreen
 import ru.macdroid.subagentstest.ui.theme.SubAgentsTestTheme
 
 sealed class Screen {
     data object Categories : Screen()
     data class Notes(val categoryId: Long) : Screen()
     data object Support : Screen()
+    data object TeamAssistant : Screen()
 }
 
 @Composable
@@ -30,6 +32,9 @@ fun App() {
                         onNavigateToSupport = {
                             currentScreen = Screen.Support
                         },
+                        onNavigateToTeamAssistant = {
+                            currentScreen = Screen.TeamAssistant
+                        },
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -46,6 +51,14 @@ fun App() {
 
                 is Screen.Support -> {
                     SupportChatScreen(
+                        onNavigateBack = {
+                            currentScreen = Screen.Categories
+                        }
+                    )
+                }
+
+                is Screen.TeamAssistant -> {
+                    TeamAssistantChatScreen(
                         onNavigateBack = {
                             currentScreen = Screen.Categories
                         }

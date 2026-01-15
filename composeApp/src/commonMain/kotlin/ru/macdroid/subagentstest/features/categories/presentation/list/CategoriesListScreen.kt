@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,6 +28,7 @@ import ru.macdroid.subagentstest.features.categories.presentation.viewmodel.Cate
 fun CategoriesListScreen(
     onNavigateToNotes: (categoryId: Long) -> Unit,
     onNavigateToSupport: () -> Unit = {},
+    onNavigateToTeamAssistant: () -> Unit = {},
     viewModel: CategoriesViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -38,7 +40,8 @@ fun CategoriesListScreen(
         topBar = {
             CategoriesTopBar(
                 onAddClick = { showAddDialog = true },
-                onSupportClick = onNavigateToSupport
+                onSupportClick = onNavigateToSupport,
+                onTeamAssistantClick = onNavigateToTeamAssistant
             )
         }
     ) { padding ->
@@ -91,11 +94,19 @@ fun CategoriesListScreen(
 @Composable
 private fun CategoriesTopBar(
     onAddClick: () -> Unit,
-    onSupportClick: () -> Unit
+    onSupportClick: () -> Unit,
+    onTeamAssistantClick: () -> Unit
 ) {
     TopAppBar(
         title = { Text("Категории") },
         actions = {
+            IconButton(onClick = onTeamAssistantClick) {
+                Icon(
+                    Icons.Filled.AccountCircle,
+                    contentDescription = "Team Assistant",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
             IconButton(onClick = onSupportClick) {
                 Icon(
                     Icons.Filled.Info,

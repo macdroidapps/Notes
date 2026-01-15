@@ -113,6 +113,8 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                // Coroutines Swing (Main dispatcher for Desktop)
+                implementation(libs.kotlinx.coroutines.swing)
                 // SQLDelight JVM
                 implementation(libs.sqldelight.jvm)
             }
